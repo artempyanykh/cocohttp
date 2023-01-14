@@ -1,6 +1,8 @@
 # cocohttp
 
-## Build
+🚧🛠️
+
+## How to build
 This project uses CMake and vcpkg for a reasonable build with reasonable dependency management:
 1. `CMakeLists.txt` contains a project definition and `vcpkg` integration bits.
 2. `vcpkg.json` is a manifest file that defines a list of project dependencies.
