@@ -1,25 +1,30 @@
 ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
 $(eval $(ARGS):;@:)
 
+.DEFAULT_GOAL := build
+
+BUILD_TYPE := debug
+BUILD_DIR := cmake-build-${BUILD_TYPE}
+
 .PHONY: bootstrap
 bootstrap:
 	git submodule update --init && vcpkg/bootstrap-vcpkg.sh
 
 .PHONY: clean
 clean:
-	rm -rf build
+	rm -rf ${BUILD_DIR}
 
 .PHONY: configure
 configure:
-	cmake -S . -B build -G Ninja
+	cmake -S . -B ${BUILD_DIR} -G Ninja -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
 
 .PHONY: build
 build:
-	@cmake --build build
+	@cmake --build ${BUILD_DIR}
 
-.PHONY: run
-run: build
-	@build/main $(ARGS)
+.PHONY: runSample1
+runSample1: build
+	@${BUILD_DIR}/sample/sample1 $(ARGS)
 
 .PHONY: reconfigure
 reconfigure: clean configure
