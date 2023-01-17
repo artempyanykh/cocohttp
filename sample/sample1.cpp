@@ -1,5 +1,5 @@
 #include "cocohttp.h"
 
 int main(int argc, char *argv[]) {
-    cocohttp::foo();
+    cocohttp::run_server(10010);
 }

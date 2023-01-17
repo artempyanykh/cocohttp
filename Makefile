@@ -3,8 +3,9 @@ $(eval $(ARGS):;@:)
 
 .DEFAULT_GOAL := build
 
-BUILD_TYPE := debug
-BUILD_DIR := cmake-build-${BUILD_TYPE}
+BUILD_TYPE := Debug
+BUILD_TYPE_LC := $(shell BT=$(BUILD_TYPE); echo $${BT} | tr '[:upper:]' '[:lower:]')
+BUILD_DIR := cmake-build-${BUILD_TYPE_LC}
 
 .PHONY: bootstrap
 bootstrap:
@@ -16,7 +17,7 @@ clean:
 
 .PHONY: configure
 configure:
-	cmake -S . -B ${BUILD_DIR} -G Ninja -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
+	cmake -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -G Ninja -S . -B ${BUILD_DIR}
 
 .PHONY: build
 build:
