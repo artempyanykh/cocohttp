@@ -7,6 +7,7 @@
 #include "asio/detached.hpp"
 #include "asio/ip/tcp.hpp"
 #include "asio/write.hpp"
+#include "asio/read.hpp"
 
 #include "cocohttp.h"
 

@@ -3,9 +3,17 @@ $(eval $(ARGS):;@:)
 
 .DEFAULT_GOAL := build
 
-BUILD_TYPE := Debug
-BUILD_TYPE_LC := $(shell BT=$(BUILD_TYPE); echo $${BT} | tr '[:upper:]' '[:lower:]')
-BUILD_DIR := cmake-build-${BUILD_TYPE_LC}
+LAST_PRESET_FILE := last-preset.txt
+LAST_PRESET := $(shell cat ${LAST_PRESET_FILE})
+ifeq (${LAST_PRESET},)
+PRESET := default-debug
+else
+PRESET := ${LAST_PRESET}
+endif
+
+$(info PRESET is ${PRESET})
+
+BUILD_DIR := build/${PRESET}
 
 .PHONY: bootstrap
 bootstrap:
@@ -15,9 +23,16 @@ bootstrap:
 clean:
 	rm -rf ${BUILD_DIR}
 
+.PHONY: cleanall
+cleanall:
+	rm -rf build
+
+${LAST_PRESET_FILE}:
+	@echo ${PRESET} > ${LAST_PRESET_FILE}
+
 .PHONY: configure
-configure:
-	cmake -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -G Ninja -S . -B ${BUILD_DIR}
+configure: ${LAST_PRESET_FILE}
+	cmake --preset ${PRESET}
 
 .PHONY: build
 build:

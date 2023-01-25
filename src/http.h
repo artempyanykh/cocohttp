@@ -150,7 +150,7 @@ struct custom_status_code {
 
 public:
   static custom_status_code create(std::uint16_t code_,
-                                   std::string description);
+                                   std::string description) noexcept;
 
 private:
   custom_status_code(std::uint16_t code_, std::string description_)
